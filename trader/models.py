@@ -1,22 +1,8 @@
 from django.db import models
-
-class EngineType(models.Choices):
-    PETROL = "P", "Petrol"
-    DIESEL = "D", "Diesel"
-    ELECTRIC = "E", "Electric"
-    HYBRID = "H", "Hybrid"
-    PLUG_IN_HYBRID = "PH", "Plug-in Hybrid"# Create your models here.
+from django.contrib.auth.models import AbstractUser
 
 
-class Category(models.Model):
-    pass
-
-
-class Manufacturer(models.Model):
-    pass
-
-
-class Car(models.Model):
+class Engine(models.Model):
     engine_types = [
         ("P", "Petrol"),
         ("D", "Diesel"),
@@ -24,20 +10,28 @@ class Car(models.Model):
         ("H", "Hybrid"),
         ("I", "Plug-in Hybrid")
     ]
+        
+    type = models.CharField(max_length=1, choices=engine_types)
+    power = models.IntegerField()
+    volume = models.IntegerField()
 
+
+class Car(models.Model):
     gearbox_types = [
         ("M", "manual"),
         ("A", "automatic"),
         ("S", "semi-automatic")
     ]
 
-    manufacturer = models.ForeignKey(Manufacturer, related_name="manufacturer", on_delete=models.CASCADE)
-    model = models.CharField(max_length=30)
-    category = models.ForeignKey(Category, related_name="category", on_delete=models.CASCADE)
-    engine_type = models.CharField(max_length=1, choices=engine_types)
+    manufacturer = models.CharField(max_length=64)
+    model = models.CharField(max_length=64)
+    category = models.CharField(max_length=64)
     gearbox_type = models.CharField(max_length=1, choices=gearbox_types)
-    power = models.IntegerField(name="power", max_length=2000)
-    eurostandard = models.IntegerField(name="eurostandard", max_length=6)
-
-
-
+    engine = models.ForeignKey(Engine, on_delete=models.CASCADE)
+    eurostandard = models.IntegerField()
+    mileage = models.IntegerField()
+    production_date = models.DateField()
+    color = models.CharField(max_length=20)
+    price = models.IntegerField()
+    region = models.CharField(max_length=64)
+    place = models.CharField(max_length=64)
