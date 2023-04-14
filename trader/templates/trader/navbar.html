@@ -7,19 +7,43 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a {% if page == "home" %} class="nav-link text-light active" aria-current="page" {% else %} class="nav-link text-light" {% endif %} href="{% url 'index' %}">Home</a>
+                    <a {% if page == "home" %} class="nav-link text-light active" aria-current="page" {% else %} class="nav-link text-muted" {% endif %} href="{% url 'index' %}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a {% if page == "filter" %} class="nav-link text-light active" aria-current="page" {% else %} class="nav-link text-light" {% endif %} href="#">Filter</a>
+                    <a {% if page == "filter" %} class="nav-link text-light active" aria-current="page" {% else %} class="nav-link text-muted" {% endif %} href="#">Filter</a>
                 </li>
                 <li class="nav-item">
-                    <a {% if page == "publish" %} class="nav-link text-light active" aria-current="page" {% else %} class="nav-link text-light" {% endif %} href="#">Publish</a>
+                    <a {% if page == "publish" %} class="nav-link text-light active" aria-current="page" {% else %} class="nav-link text-muted" {% endif %} href="#">Publish</a>
                 </li>
+
+                {% if user.is_authenticated %}
+
+                <li class="nav-item"> 
+                    <a class="nav-link text-muted" href="{% url 'logout' %}">Logout</a>
+                </li>
+
+                {% else %}
+
+                <li class="nav-item"> 
+                    <a {% if page == "login" %} class="nav-link text-light active" aria-current="page" {% else %} class="nav-link text-muted" {% endif %} href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a {% if page == "register" %} class="nav-link text-light active" aria-current="page" {% else %} class="nav-link text-muted" {% endif %} href="{% url 'register' %}">Register</a>
+                </li>
+
+                {% endif %}
+
             </ul>
-            <form class="d-flex" role="search">
+            <form class="d-flex me-2" role="search">
                 <input class="form-control bg-dark me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success">Search</button>
             </form>
+
+            {% if user.is_authenticated %}
+
+            <a class="h5 text-white ms-2 mt-1" style="text-decoration: none;" href="#">{{ request.user }}</a>
+            
+            {% endif %}
         </div>
     </div>
 </nav>
