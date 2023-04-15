@@ -4,13 +4,18 @@ from django.views.generic.edit import CreateView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
+from .forms import FilterForm
+from .models import Car
 
 
 
 # Create your views here.
 
-class IndexView(TemplateView):
+class IndexView(FormView, ListView):
     template_name = "trader/index.html"
+    form_class = FilterForm
+    success_url = reverse_lazy("index")
+    model = Car
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,4 +1,13 @@
 {% extends "trader/layout.html" %}
 {% block body %}
-    
+    <p>Filter by:</p>
+    <form>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Filter</button>
+    </form>
+    <hr>
+    {% for car in object_list %}
+    <p>{{ car }}</p>
+    {% endfor %}
 {% endblock %}
