@@ -59,3 +59,6 @@ class Car(models.Model):
     price = models.IntegerField()
     region = models.CharField(max_length=64)
     place = models.CharField(max_length=64)
+
+    def __str__(self):
+        return f"{self.manufacturer} {self.model} for {self.price}lv"
