@@ -18,8 +18,8 @@ class FilterForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].required = False
 
-        self.fields["manufacturer"].widget = forms.Select(choices=[])
-        self.fields["model"].widget = forms.Select(choices=[])
+        self.fields["manufacturer"].widget = forms.Select(choices=[("", "---------------------------")])
+        self.fields["model"].widget = forms.Select(choices=[("", "---------")])
         self.fields["eurostandard"].widget = forms.Select(choices=self.eurostandards)
 
         
