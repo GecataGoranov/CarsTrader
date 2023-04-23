@@ -29,4 +29,15 @@ class FilterForm(forms.ModelForm):
         fields = "__all__"
 
     
+class PublishForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super(PublishForm, self).__init__(*args, **kwargs)
+        self.fields["production_date"] = forms.DateField()
+        self.fields["production_date"].widget.attrs.update({"type":"date",
+                                                            })
+
+
+    class Meta:
+        model = Car
+        fields = "__all__"

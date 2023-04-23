@@ -10,10 +10,7 @@
                     <a {% if page == "home" %} class="nav-link text-light active" aria-current="page" {% else %} class="nav-link text-muted" {% endif %} href="{% url 'index' %}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a {% if page == "filter" %} class="nav-link text-light active" aria-current="page" {% else %} class="nav-link text-muted" {% endif %} href="#">Filter</a>
-                </li>
-                <li class="nav-item">
-                    <a {% if page == "publish" %} class="nav-link text-light active" aria-current="page" {% else %} class="nav-link text-muted" {% endif %} href="#">Publish</a>
+                    <a {% if page == "publish" %} class="nav-link text-light active" aria-current="page" {% else %} class="nav-link text-muted" {% endif %} href="{% url 'publish' %}">Publish</a>
                 </li>
 
                 {% if user.is_authenticated %}

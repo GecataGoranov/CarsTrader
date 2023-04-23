@@ -4,9 +4,9 @@ from django.contrib.auth.models import AbstractUser
 
 class Car(models.Model):
     gearbox_types = [
-        ("M", "manual"),
-        ("A", "automatic"),
-        ("S", "semi-automatic")
+        ("M", "Manual"),
+        ("A", "Automatic"),
+        ("S", "Semi-automatic")
     ]
 
     engine_types = [
@@ -45,6 +45,10 @@ class Car(models.Model):
         ("P", "Purple"),
     ]
 
+    condition_choices = [("N", "New"),
+                         ("U", "Used"),
+                         ("F", "For parts")]
+    
     manufacturer = models.CharField(max_length=64)
     model = models.CharField(max_length=64)
     category = models.CharField(max_length=3, choices=categories)
@@ -56,6 +60,7 @@ class Car(models.Model):
     mileage = models.IntegerField()
     production_date = models.DateField()
     color = models.CharField(max_length=1, choices=colors)
+    condition = models.CharField(max_length=1, choices=condition_choices, null=True, blank=True, default="U")
     price = models.IntegerField()
     region = models.CharField(max_length=64)
     place = models.CharField(max_length=64)
