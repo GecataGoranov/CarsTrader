@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
@@ -16,6 +16,7 @@ class IndexView(FormView, ListView):
     form_class = FilterForm
     success_url = reverse_lazy("index")
     model = Car
+    context_object_name = "cars"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,3 +61,14 @@ class PublishCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context["page"] = "publish"
         return context
+    
+    def form_valid(self, form):
+        form.instance.seller = self.request.user
+        return super().form_valid(form)
+        
+    
+
+class CarDetailsView(DetailView):
+    template_name = "trader/car_details.html"
+    model = Car
+    context_object_name = "car"

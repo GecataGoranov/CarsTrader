@@ -6,7 +6,7 @@
         <button type="submit">Filter</button>
     </form>
     <hr>
-    {% for car in object_list %}
-    <p>{{ car }}</p>
+    {% for car in cars %}
+    <a href="{% url 'details' car.id %}">{{ car }}</p>
     {% endfor %}
 {% endblock %}

@@ -1,5 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.files.storage import FileSystemStorage
+
+
+class CarPictures(models.Model):
+    picture = models.ImageField(upload_to="car_images")
 
 
 class Car(models.Model):
@@ -49,6 +54,7 @@ class Car(models.Model):
                          ("U", "Used"),
                          ("F", "For parts")]
     
+    
     manufacturer = models.CharField(max_length=64)
     model = models.CharField(max_length=64)
     category = models.CharField(max_length=3, choices=categories)
@@ -64,6 +70,8 @@ class Car(models.Model):
     price = models.IntegerField()
     region = models.CharField(max_length=64)
     place = models.CharField(max_length=64)
+    picture = models.ForeignKey(CarPictures, on_delete=models.DO_NOTHING)
+    seller = models.CharField(max_length=30)
 
     def __str__(self):
         return f"{self.manufacturer} {self.model} for {self.price}lv"

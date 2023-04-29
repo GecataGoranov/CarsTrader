@@ -25,7 +25,7 @@ class FilterForm(forms.ModelForm):
         
     class Meta:
         model = Car
-        exclude = ("price", "region", "place")
+        exclude = ("price", "region", "place", "picture", "seller")
         fields = "__all__"
 
     
@@ -34,10 +34,10 @@ class PublishForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PublishForm, self).__init__(*args, **kwargs)
         self.fields["production_date"] = forms.DateField()
-        self.fields["production_date"].widget.attrs.update({"type":"date",
-                                                            })
+        self.fields["production_date"].widget.attrs.update({"type":"date"})
 
 
     class Meta:
         model = Car
+        exclude = ("seller",)
         fields = "__all__"
