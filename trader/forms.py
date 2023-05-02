@@ -30,6 +30,8 @@ class FilterForm(forms.ModelForm):
 
     
 class PublishForm(forms.ModelForm):
+    pictures = forms.ImageField(widget=forms.ClearableFileInput(attrs={"multiple":True}))
+
 
     def __init__(self, *args, **kwargs):
         super(PublishForm, self).__init__(*args, **kwargs)

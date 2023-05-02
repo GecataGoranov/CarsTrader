@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from .forms import FilterForm, PublishForm
-from .models import Car
+from .models import Car, CarPictures
 
 
 
@@ -64,8 +64,15 @@ class PublishCreateView(CreateView):
     
     def form_valid(self, form):
         form.instance.seller = self.request.user
+        car = form.save(commit=False)
+        car.save()
+
+        pictures = self.request.FILES.getlist("pictures")
+        for picture in pictures:
+            CarPictures.objects.create(car_id=car, picture=picture)
+
         return super().form_valid(form)
-        
+
     
 
 class CarDetailsView(DetailView):

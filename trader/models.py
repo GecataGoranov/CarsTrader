@@ -3,10 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.core.files.storage import FileSystemStorage
 
 
-class CarPictures(models.Model):
-    picture = models.ImageField(upload_to="car_images")
-
-
 class Car(models.Model):
     gearbox_types = [
         ("M", "Manual"),
@@ -26,7 +22,7 @@ class Car(models.Model):
         ("VAN", "Van"),
         ("SUV", "SUV"),
         ("CAB", "Cabrio"),
-        ("UNI", "Universal"),
+        ("UNI", "Station Wagon"),
         ("COU", "Coupe"),
         ("MIN", "Minivan"),
         ("PIC", "Pickup"),
@@ -70,8 +66,12 @@ class Car(models.Model):
     price = models.IntegerField()
     region = models.CharField(max_length=64)
     place = models.CharField(max_length=64)
-    picture = models.ForeignKey(CarPictures, on_delete=models.DO_NOTHING)
     seller = models.CharField(max_length=30)
 
     def __str__(self):
         return f"{self.manufacturer} {self.model} for {self.price}lv"
+    
+
+class CarPictures(models.Model):
+    picture = models.ImageField(upload_to="car_images")
+    car_id = models.ForeignKey(Car, on_delete=models.DO_NOTHING)
