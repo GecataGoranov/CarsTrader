@@ -1,8 +1,12 @@
+from typing import Any, Dict
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from .forms import FilterForm, PublishForm
 from .models import Car, CarPictures
@@ -52,6 +56,7 @@ class CustomLogoutView(LogoutView):
     next_page = reverse_lazy("index")
 
 
+@method_decorator(login_required(login_url="/login"), name="dispatch")
 class PublishCreateView(CreateView):
     template_name = "trader/publish.html"
     form_class = PublishForm
@@ -79,3 +84,10 @@ class CarDetailsView(DetailView):
     template_name = "trader/car_details.html"
     model = Car
     context_object_name = "car"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pictures = CarPictures.objects.filter(car_id=self.object)
+        context["pictures"] = pictures
+        return context
+        
