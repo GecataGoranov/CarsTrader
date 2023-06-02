@@ -1,5 +1,11 @@
 from django import forms
 from .models import Car
+from django.contrib.auth.forms import BaseUserCreationForm
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+
+
+UserModel = get_user_model()
 
 class FilterForm(forms.ModelForm):
     eurostandards = [
@@ -43,3 +49,13 @@ class PublishForm(forms.ModelForm):
         model = Car
         exclude = ("seller",)
         fields = "__all__"
+
+
+class CreateTraderUserForm(BaseUserCreationForm):
+
+    class Meta:
+        model = UserModel
+        fields = ("email",)
+
+    def save(self, commit=True):
+        return super().save(commit=commit)

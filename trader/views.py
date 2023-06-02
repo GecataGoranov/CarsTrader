@@ -8,8 +8,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
-from .forms import FilterForm, PublishForm
+from .forms import FilterForm, PublishForm, CreateTraderUserForm
 from .models import Car, CarPictures
+from django.contrib.auth import login
 
 
 
@@ -30,13 +31,18 @@ class IndexView(FormView, ListView):
 
 class RegisterView(CreateView):
     template_name = "trader/register.html"
-    form_class = UserCreationForm
+    form_class = CreateTraderUserForm
     success_url = reverse_lazy("index")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page"] = "register"
         return context
+    
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        login(self.request, self.object)
+        return result
     
 
 class CustomLoginView(LoginView):
