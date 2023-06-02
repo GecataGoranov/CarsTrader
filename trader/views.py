@@ -2,7 +2,7 @@ from typing import Any, Dict
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, FormView
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -10,7 +10,7 @@ from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from .forms import FilterForm, PublishForm, CreateTraderUserForm
 from .models import Car, CarPictures
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 
 
 
@@ -56,6 +56,26 @@ class CustomLoginView(LoginView):
         context = super().get_context_data(**kwargs)
         context["page"] = "login"
         return context
+
+    
+    def form_invalid(self, form):
+        return HttpResponse()
+        pass
+
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(username=username, password=password)
+        if user:
+            login(request, user)
+        else:
+            return HttpResponse("UZUNOV")
+    else:
+        form = AuthenticationForm
+        return render(request, "trader/login.html", {"page":"login",
+                                                     "form":form})
     
     
 class CustomLogoutView(LogoutView):
@@ -84,7 +104,6 @@ class PublishCreateView(CreateView):
 
         return super().form_valid(form)
 
-    
 
 class CarDetailsView(DetailView):
     template_name = "trader/car_details.html"
@@ -96,4 +115,3 @@ class CarDetailsView(DetailView):
         pictures = CarPictures.objects.filter(car_id=self.object)
         context["pictures"] = pictures
         return context
-        
