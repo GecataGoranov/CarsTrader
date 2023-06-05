@@ -1,10 +1,14 @@
+from typing import Any
+from django.db import models
 from django.shortcuts import render
 from django.views.generic import CreateView, DetailView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.contrib.auth import login
-from .forms import CreateTraderUserForm
+from django.utils.text import slugify
 
+from .forms import CreateTraderUserForm
+from .models import TraderProfile, TraderUser
 
 # Create your views here.
 class RegisterView(CreateView):
@@ -20,6 +24,7 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         result = super().form_valid(form)
         login(self.request, self.object)
+        new_profile = TraderProfile.objects.create(user_id=self.object, slug=slugify(self.object.email))
         return result
     
 
@@ -41,4 +46,11 @@ class UserLogoutView(LogoutView):
 
 
 class ProfilePageView(DetailView):
-    pass
+    template_name = "accounts/profile.html"
+    model = TraderProfile
+    context_object_name = "user"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset.prefetch_related("user_id")
+        return queryset
