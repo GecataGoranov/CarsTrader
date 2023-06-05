@@ -6,8 +6,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
+from django.utils.text import slugify
+
 from .forms import FilterForm, PublishForm
 from .models import Car, CarPictures
+
 
 
 
@@ -23,6 +26,8 @@ class IndexView(FormView, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page"] = "home"
+        if self.request.user.is_authenticated:
+            context["slug"] = slugify(self.request.user.email)
         return context
     
 
@@ -35,6 +40,8 @@ class PublishCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page"] = "publish"
+        if self.request.user.is_authenticated:
+            context["slug"] = slugify(self.request.user.email)
         return context
     
     def form_valid(self, form):
@@ -58,6 +65,8 @@ class CarDetailsView(DetailView):
         context = super().get_context_data(**kwargs)
         pictures = CarPictures.objects.filter(car_id=self.object)
         context["pictures"] = pictures
+        if self.request.user.is_authenticated:
+            context["slug"] = slugify(self.request.user.email)
         return context
     
 

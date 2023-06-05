@@ -29,6 +29,8 @@ class TraderProfile(models.Model):
     slug = models.SlugField(unique=True)
     profile_picture = models.ImageField(upload_to="profile_pics")
     phone_number = models.CharField(max_length=10, validators=[phone_validator], blank=True)
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
     additional_info = models.TextField()
 
     def save(self, *args, **kwargs):
