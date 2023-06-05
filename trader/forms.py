@@ -50,12 +50,3 @@ class PublishForm(forms.ModelForm):
         exclude = ("seller",)
         fields = "__all__"
 
-
-class CreateTraderUserForm(BaseUserCreationForm):
-
-    class Meta:
-        model = UserModel
-        fields = ("email",)
-
-    def save(self, commit=True):
-        return super().save(commit=commit)

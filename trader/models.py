@@ -1,20 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, PermissionsMixin
 from django.core.files.storage import FileSystemStorage
-from .managers import TraderUserManager
-
-
-class TraderUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True, null=False, blank=False)
-    last_login = models.DateTimeField(auto_now=True)
-    is_superuser = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(auto_now_add=True)
-    
-    USERNAME_FIELD = "email"
-
-    objects = TraderUserManager()
 
 
 class Car(models.Model):

@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'trader',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -127,4 +129,4 @@ MEDIA_ROOT = str(BASE_DIR / "media")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = "trader.TraderUser"
+AUTH_USER_MODEL = "accounts.TraderUser"
