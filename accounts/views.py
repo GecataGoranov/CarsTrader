@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
 from django.contrib.auth import login
@@ -8,7 +8,7 @@ from .forms import CreateTraderUserForm
 
 # Create your views here.
 class RegisterView(CreateView):
-    template_name = "trader/register.html"
+    template_name = "accounts/register.html"
     form_class = CreateTraderUserForm
     success_url = reverse_lazy("index")
 
@@ -24,7 +24,7 @@ class RegisterView(CreateView):
     
 
 class UserLoginView(LoginView):
-    template_name = "trader/login.html"
+    template_name = "accounts/login.html"
     success_url = reverse_lazy("index")
 
     def get_success_url(self):
@@ -38,3 +38,7 @@ class UserLoginView(LoginView):
     
 class UserLogoutView(LogoutView):
     next_page = reverse_lazy("index")
+
+
+class ProfilePageView(DetailView):
+    pass

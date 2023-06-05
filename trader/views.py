@@ -26,7 +26,7 @@ class IndexView(FormView, ListView):
         return context
     
 
-@method_decorator(login_required(login_url="/login"), name="dispatch")
+@method_decorator(login_required(login_url="accounts/login"), name="dispatch")
 class PublishCreateView(CreateView):
     template_name = "trader/publish.html"
     form_class = PublishForm
@@ -59,3 +59,5 @@ class CarDetailsView(DetailView):
         pictures = CarPictures.objects.filter(car_id=self.object)
         context["pictures"] = pictures
         return context
+    
+
