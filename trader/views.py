@@ -1,4 +1,5 @@
 from typing import Any, Dict
+from django.db import models
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, FormView
@@ -10,6 +11,7 @@ from django.utils.text import slugify
 
 from .forms import FilterForm, PublishForm
 from .models import Car, CarPictures
+from accounts.models import TraderUser, TraderProfile
 
 
 
@@ -63,10 +65,14 @@ class CarDetailsView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        car = self.get_object()
         pictures = CarPictures.objects.filter(car_id=self.object)
+        car_seller = TraderProfile.objects.prefetch_related("user").get(user=car.seller)
+        context["car_seller"] = car_seller
         context["pictures"] = pictures
         if self.request.user.is_authenticated:
             context["slug"] = slugify(self.request.user.email)
         return context
+    
     
 

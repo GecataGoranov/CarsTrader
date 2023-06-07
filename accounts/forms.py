@@ -21,4 +21,4 @@ class AddInfoForm(forms.ModelForm):
     class Meta:
         model = TraderProfile
         fields = "__all__"
-        exclude = ("user_id", "slug")
+        exclude = ("user", "slug")

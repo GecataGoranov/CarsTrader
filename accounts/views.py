@@ -25,7 +25,7 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         result = super().form_valid(form)
         login(self.request, self.object)
-        new_profile = TraderProfile.objects.create(user_id=self.object, slug=slugify(self.object.email))
+        new_profile = TraderProfile.objects.create(user=self.object, slug=slugify(self.object.email))
         return result
     
 
@@ -73,12 +73,19 @@ class AddInfoView(LoginRequiredMixin, UpdateView):
     template_name = "accounts/add_info.html"
     model = TraderProfile
     form_class = AddInfoForm
-    success_url = reverse_lazy("profile")
-
-    def get_object(self, queryset=None):
-        return self.request.user.traderprofile
+    slug_field = "slug"
     
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context["slug"] = slugify(self.request.user.email)
         return context
+    
+    def get_object(self, queryset=None):
+        queryset = self.get_queryset()
+        slug = self.kwargs.get(self.slug_url_kwarg)
+        return queryset.get(slug=slug)
+    
+    def get_success_url(self):
+        slug = self.object.slug
+        url = f"/accounts/profile/{slug}"
+        return url

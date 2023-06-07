@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, PermissionsMixin
 from django.core.files.storage import FileSystemStorage
+from accounts.models import TraderUser
 
 
 class Car(models.Model):
@@ -66,7 +67,7 @@ class Car(models.Model):
     price = models.IntegerField()
     region = models.CharField(max_length=64)
     place = models.CharField(max_length=64)
-    seller = models.CharField(max_length=30)
+    seller = models.ForeignKey(TraderUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.manufacturer} {self.model} for {self.price}lv"
