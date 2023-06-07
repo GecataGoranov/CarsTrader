@@ -1,12 +1,15 @@
 {% extends "base/layout.html" %}
 {% block body %}
     <div class="row">
-        <div class="col-6">
+        <div class="col-4"></div>
+        <div class="col-4">
             <p class="h1 text-center">{{user.first_name}} {{user.last_name}}</p>
-            <img src="{{user.profile_picture.url}}" class="img-fluid">
+            <div class="img-container">
+                <img src="{{user.profile_picture.url}}" class="img-fluid">
+            </div>
         </div>
-        <div class="col-6">
-            
-        </div>
+        <div class="col-4"></div>
+    <p class="h4 text-center mt-3">Phone number: {{user.phone_number}}</p>
+    <p class="h4 text-center">Place of living: {{user.place_of_living}}</p>
     </div>
 {% endblock %}

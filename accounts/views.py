@@ -46,7 +46,7 @@ class UserLogoutView(LogoutView):
     next_page = reverse_lazy("index")
 
 
-class ProfilePageView(DetailView):
+class ProfilePageView(LoginRequiredMixin, DetailView):
     template_name = "accounts/profile.html" 
     model = TraderProfile
     context_object_name = "user"
