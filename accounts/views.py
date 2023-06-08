@@ -10,6 +10,7 @@ from django.utils.text import slugify
 
 from .forms import CreateTraderUserForm, AddInfoForm
 from .models import TraderProfile, TraderUser
+from trader.models import CarPictures, Car
 
 # Create your views here.
 class RegisterView(CreateView):
@@ -60,6 +61,8 @@ class ProfilePageView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(*args, **kwargs)
         if self.request.user.is_authenticated:
             context["slug"] = slugify(self.request.user.email)
+        cars = Car.objects.filter(seller_id=self.object.user_id)
+        context["car_pictures"] = cars
         return context
     
     def get(self, request, *args, **kwargs):

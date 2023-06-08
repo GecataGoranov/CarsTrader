@@ -33,8 +33,8 @@ class IndexView(FormView, ListView):
         return context
     
 
-@method_decorator(login_required(login_url="accounts/login"), name="dispatch")
-class PublishCreateView(CreateView):
+# @method_decorator(login_required(login_url="accounts/login"), name="dispatch")
+class PublishCreateView(LoginRequiredMixin, CreateView):
     template_name = "trader/publish.html"
     form_class = PublishForm
     success_url = reverse_lazy("index")

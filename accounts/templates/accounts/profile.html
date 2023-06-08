@@ -1,15 +1,25 @@
 {% extends "base/layout.html" %}
 {% block body %}
     <div class="row">
-        <div class="col-4"></div>
         <div class="col-4">
             <p class="h1 text-center">{{user.first_name}} {{user.last_name}}</p>
             <div class="img-container">
                 <img src="{{user.profile_picture.url}}" class="img-fluid">
             </div>
+            <p class="h4 text-center mt-3">Phone number: {{user.phone_number}}</p>
+            <p class="h4 text-center">Place of living: {{user.place_of_living}}</p>
         </div>
-        <div class="col-4"></div>
-    <p class="h4 text-center mt-3">Phone number: {{user.phone_number}}</p>
-    <p class="h4 text-center">Place of living: {{user.place_of_living}}</p>
+        <div class="col-8">
+            <p class="h3 mt-2">Cars for sale:</p>
+            {% for car in cars %}
+            <div class="card" style="width: 18rem;">
+                <img src=".." class="card-img-top" alt="...">
+                <div class="card-body">
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+              </div>
+            {% endfor %}
+        </div>
+
     </div>
 {% endblock %}
