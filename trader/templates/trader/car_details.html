@@ -7,9 +7,11 @@
       <div class="col-6">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
           <div class="carousel-indicators">
+          {% if pictures|length != 1 %}
             {% for image in pictures %}
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter|add:-1 }}" {% if forloop.counter == 1 %} class="active" aria-current="true" {% endif %} aria-label="Slide 1"></button>
             {% endfor %}
+          {% endif %}
           </div>
           <div class="carousel-inner">
             {% for image in pictures %}
@@ -18,6 +20,7 @@
             </div>
             {% endfor %}
           </div>
+          {% if pictures|length != 1 %}
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
@@ -26,6 +29,7 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
           </button>
+          {% endif %}
         </div>
       </div>
 
@@ -62,7 +66,7 @@
             Condition: {{car.get_condition_display}}
           </li>
           <li>
-            Price: {{car.price}}
+            Price: {{car.price}}lv
           </li>
           <li>
             Region: {{car.region}}
@@ -71,7 +75,7 @@
             City/Town: {{car.place}}
           </li>
           <li>
-            Seller: {{car_seller.first_name}}
+            <a href="{% url 'profile' slug=car_seller.slug %}">Seller: {{car_seller.first_name}} {{car_seller.last_name}}</a>
           </li>
         </ul>
       </div>

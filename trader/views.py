@@ -1,5 +1,6 @@
 from typing import Any, Dict
 from django.db import models
+from django.db.models.query import QuerySet
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, FormView
@@ -28,12 +29,22 @@ class IndexView(FormView, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["page"] = "home"
+        
         if self.request.user.is_authenticated:
             context["slug"] = slugify(self.request.user.email)
+
+        car_pictures = CarPictures.objects.select_related("car_id")
+        car_pictures_dict = {}
+        for car_picture in car_pictures:
+            car_pictures_dict.setdefault(car_picture.car_id_id, []).append(car_picture)
+        context["car_pictures"] = car_pictures_dict
+
         return context
     
+    def get_queryset(self):
+        return self.model.objects.all()
 
-# @method_decorator(login_required(login_url="accounts/login"), name="dispatch")
+
 class PublishCreateView(LoginRequiredMixin, CreateView):
     template_name = "trader/publish.html"
     form_class = PublishForm
