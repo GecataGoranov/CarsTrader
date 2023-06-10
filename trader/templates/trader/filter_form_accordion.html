@@ -13,6 +13,7 @@
             <div class="accordion" id="formAccordion">
               <form>
               {% csrf_token %}
+              <div class="form-group">
               {% for field in form %}
               <div class="accordion-item">
                 <h2 class="accordion-header" id="{{field.label|remove_spaces}}Heading">
@@ -22,11 +23,20 @@
                 </h2>
                 <div id="{{field.label|remove_spaces}}Collapse" class="accordion-collapse collapse" aria-labelledby="{{field.label|remove_spaces}}Heading" data-bs-parent="#formAccordion">
                   <div class="accordion-body">
+                    {% if field.field.widget.input_type == "select" %}
+                      <select class="form-select" multiple size="{{field.field.choices|length}}">
+                        {% for choice in field.field.choices %}
+                          <option value="{{choice.0}}">{{choice.1}}</option>
+                        {% endfor %}
+                      </select>
+                    {% else %}
                     {{field}}
+                    {% endif %}
                   </div>
                 </div>
               </div>
               {% endfor %}
+              </div>
               <button class="btn btn-primary mt-2" type="submit">Filter</button>
               </form>
             </div>
