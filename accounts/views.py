@@ -47,7 +47,7 @@ class UserLogoutView(LogoutView):
     next_page = reverse_lazy("index")
 
 
-class ProfilePageView(LoginRequiredMixin, DetailView):
+class ProfilePageView(DetailView):
     template_name = "accounts/profile.html" 
     model = TraderProfile
     context_object_name = "user"
@@ -61,8 +61,18 @@ class ProfilePageView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(*args, **kwargs)
         if self.request.user.is_authenticated:
             context["slug"] = slugify(self.request.user.email)
+
         cars = Car.objects.filter(seller_id=self.object.user_id)
-        context["car_pictures"] = cars
+        context["cars"] = cars
+
+        car_pictures = CarPictures.objects.select_related("car_id")
+        car_pictures_dict = {}
+
+        for car_picture in car_pictures:
+            car_pictures_dict.setdefault(car_picture.car_id_id, []).append(car_picture)
+
+        context["car_pictures"] = car_pictures_dict
+
         return context
     
     def get(self, request, *args, **kwargs):
