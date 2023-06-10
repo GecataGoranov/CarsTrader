@@ -42,7 +42,23 @@ class IndexView(FormView, ListView):
         return context
     
     def get_queryset(self):
-        return self.model.objects.all()
+        filters = {
+            'manufacturer__contains': self.request.GET.get("manufacturer", ""),
+            'model__contains': self.request.GET.get("model", ""),
+            'category__contains': self.request.GET.get("category", ""),
+            'gearbox_type__contains': self.request.GET.get("gearbox_type", ""),
+            'engine_type__contains': self.request.GET.get("engine_type", ""),
+            'engine_power__gte': int(self.request.GET.get("engine_power", 0) or 0),
+            'engine_volume__gte': int(self.request.GET.get("engine_volume", 0) or 0),
+            'eurostandard__gte': int(self.request.GET.get("eurostandard", 0) or 0),
+            'mileage__lte': int(self.request.GET.get("mileage", 20000000) or 20000000),
+            'color__contains': self.request.GET.get("color", ""),
+            'condition__icontains': self.request.GET.get("condition", ""),
+        }
+
+        filters = {key: value for key, value in filters.items() if value != ""}
+
+        return Car.objects.filter(**filters)
 
 
 class PublishCreateView(LoginRequiredMixin, CreateView):

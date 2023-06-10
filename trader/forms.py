@@ -31,7 +31,7 @@ class FilterForm(forms.ModelForm):
         
     class Meta:
         model = Car
-        exclude = ("price", "region", "place", "picture", "seller")
+        exclude = ("price", "region", "place", "picture", "seller", "production_date")
         fields = "__all__"
 
     
