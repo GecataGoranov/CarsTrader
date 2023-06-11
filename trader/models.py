@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, PermissionsMixin
 from django.core.files.storage import FileSystemStorage
 from accounts.models import TraderUser
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 class Car(models.Model):
@@ -79,8 +81,12 @@ class CarPictures(models.Model):
 
 
 class CarManufacturer(models.Model):
-    manufacturer = models.CharField(max_length=64)
+    manufacturer = models.CharField(max_length=64, unique=True)
 
 class CarModel(models.Model):
-    manufacturer_id = models.ForeignKey(CarManufacturer)
-    model = models.CharField(max_length=64)
+    manufacturer_id = models.ForeignKey(CarManufacturer, on_delete=models.CASCADE)
+    model = models.CharField(max_length=64, unique=True)
+
+
+from trader.signals import add_manufacturer
+post_save.connect(add_manufacturer, sender=Car)
