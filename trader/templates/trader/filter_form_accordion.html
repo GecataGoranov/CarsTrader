@@ -24,9 +24,12 @@
                 <div id="{{field.label|remove_spaces}}Collapse" class="accordion-collapse collapse" aria-labelledby="{{field.label|remove_spaces}}Heading" data-bs-parent="#formAccordion">
                   <div class="accordion-body">
                     {% if field.field.widget.input_type == "select" %}
-                      <select class="form-select" multiple size="{{field.field.choices|length}}">
+                      <select class="form-select" multiple {% if field.label == "Gearbox type" %} name="gearbox_type" {% else %} name="{{field.label|lower}}" {% endif %} size="{{field.field.choices|length|add:'-1'}}">
                         {% for choice in field.field.choices %}
+                          {% if choice.1 == "---------" %}
+                          {% else %}
                           <option value="{{choice.0}}">{{choice.1}}</option>
+                          {% endif %}
                         {% endfor %}
                       </select>
                     {% else %}

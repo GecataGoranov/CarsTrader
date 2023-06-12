@@ -83,6 +83,12 @@ class PublishCreateView(LoginRequiredMixin, CreateView):
             CarPictures.objects.create(car_id=car, picture=picture)
 
         return super().form_valid(form)
+    
+    def get(self, request, *args, **kwargs):
+        user_profile = TraderProfile.objects.get(user=self.request.user)
+        if not user_profile.first_name:
+            return redirect("add info", slug=user_profile.slug)
+        return super().get(request, *args, **kwargs)
 
 
 class CarDetailsView(DetailView):

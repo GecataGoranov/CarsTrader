@@ -1,5 +1,5 @@
 from django import forms
-from .models import Car
+from .models import Car, CarManufacturer, CarModel
 from django.contrib.auth.forms import BaseUserCreationForm
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -18,13 +18,14 @@ class FilterForm(forms.ModelForm):
         
     ]
     
+    manufacturer = forms.ModelChoiceField(queryset=CarManufacturer.objects.all(), required=False, to_field_name="manufacturer")
 
     def __init__(self, *args, **kwargs):
         super(FilterForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].required = False
 
-        self.fields["manufacturer"].widget = forms.Select(choices=[("", "---------------------------")])
+        # self.fields["manufacturer"].widget = forms.Select(choices=self.manufacturers)
         self.fields["model"].widget = forms.Select(choices=[("", "---------")])
         self.fields["eurostandard"].widget = forms.Select(choices=self.eurostandards)
 

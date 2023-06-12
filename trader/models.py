@@ -83,9 +83,15 @@ class CarPictures(models.Model):
 class CarManufacturer(models.Model):
     manufacturer = models.CharField(max_length=64, unique=True)
 
+    def __str__(self):
+        return self.manufacturer
+
 class CarModel(models.Model):
     manufacturer = models.ForeignKey(CarManufacturer, on_delete=models.CASCADE)
     model = models.CharField(max_length=64, unique=True)
+
+    def __str__(self):
+        return self.model
 
 
 from trader.signals import add_manufacturer
