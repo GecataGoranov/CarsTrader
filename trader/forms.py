@@ -24,6 +24,8 @@ class FilterForm(forms.ModelForm):
         super(FilterForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].required = False
+            self.fields[field].widget.attrs.update({"placeholder":self.fields[field].label})
+            
 
         # self.fields["manufacturer"].widget = forms.Select(choices=self.manufacturers)
         self.fields["model"].widget = forms.Select(choices=[("", "---------")])
