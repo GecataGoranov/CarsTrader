@@ -84,7 +84,7 @@ class CarManufacturer(models.Model):
     manufacturer = models.CharField(max_length=64, unique=True)
 
 class CarModel(models.Model):
-    manufacturer_id = models.ForeignKey(CarManufacturer, on_delete=models.CASCADE)
+    manufacturer = models.ForeignKey(CarManufacturer, on_delete=models.CASCADE)
     model = models.CharField(max_length=64, unique=True)
 
 
