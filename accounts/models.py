@@ -5,6 +5,7 @@ from django.utils.text import slugify
 from django.core.validators import MinLengthValidator
 from django.core.validators import RegexValidator
 
+
 phone_regex = r'^0[0-9]{9}$'
 phone_validator = RegexValidator(
     regex=phone_regex,

@@ -69,7 +69,8 @@ class Car(models.Model):
     price = models.IntegerField()
     region = models.CharField(max_length=64)
     place = models.CharField(max_length=64)
-    seller = models.ForeignKey(TraderUser, on_delete=models.CASCADE)
+    seller = models.ForeignKey(TraderUser, on_delete=models.CASCADE, related_name="seller")
+    users_who_favourited_car = models.ManyToManyField(TraderUser, related_name="potential_buyers")
 
     def __str__(self):
         return f"{self.manufacturer} {self.model} for {self.price}lv"
