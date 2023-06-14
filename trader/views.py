@@ -1,7 +1,9 @@
 from typing import Any, Dict
+from django import http
 from django.db import models
 from django.db.models import Q
 from django.db.models.query import QuerySet
+from django.http.response import HttpResponse
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, FormView, DeleteView
@@ -113,7 +115,20 @@ class CarDetailsView(DetailView):
         return context
     
 
-class CarDeleteView(LoginRequiredMixin, DeleteView):
+class CarRemoveView(LoginRequiredMixin, DeleteView):
     model = Car
     template_name = "trader/confirm_delete.html"
     success_url = reverse_lazy("index")
+
+    def get(self, request, *args, **kwargs):
+        car_to_delete = Car.objects.get(id=self.kwargs.get("pk"))
+
+        if self.request.user != car_to_delete.seller:
+            return redirect(reverse_lazy("prohibited"))
+        return super().get(request, *args, **kwargs)
+    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["slug"] = slugify(self.request.user.email)
+        return context

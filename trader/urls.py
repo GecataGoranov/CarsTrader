@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import IndexView, PublishCreateView, CarDetailsView, CarDeleteView
+from .views import IndexView, PublishCreateView, CarDetailsView, CarRemoveView
+from django.views.generic import TemplateView
 
 
 
@@ -7,5 +8,6 @@ urlpatterns = [
     path("", IndexView.as_view(), name="index"),
     path("publish", PublishCreateView.as_view(), name="publish"),
     path("details/<int:pk>", CarDetailsView.as_view(), name="details"),
-    path("delete/<int:pk>", CarDeleteView.as_view(), name="delete car")
+    path("delete/<int:pk>", CarRemoveView.as_view(), name="delete car"),
+    path("prohibited", TemplateView.as_view(template_name="base/prohibited"), name="prohibited"),
 ]

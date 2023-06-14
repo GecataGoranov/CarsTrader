@@ -1,0 +1,10 @@
+{% extends "base/layout.html" %}
+
+{% block body %}
+    <form method="POST">
+        {% csrf_token %}
+        <h1>Do you really want to remove this listing?</h1>
+        <button class="btn btn-danger btn-lg">Confirm removal</button>
+    </form>
+    <a class="btn btn-primary btn-lg" href="{% url 'index' %}">Return to index page</a>
+{% endblock %}

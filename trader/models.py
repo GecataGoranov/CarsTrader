@@ -77,7 +77,7 @@ class Car(models.Model):
 
 class CarPictures(models.Model):
     picture = models.ImageField(upload_to="car_images")
-    car_id = models.ForeignKey(Car, on_delete=models.DO_NOTHING)
+    car_id = models.ForeignKey(Car, on_delete=models.CASCADE)
 
 
 class CarManufacturer(models.Model):
