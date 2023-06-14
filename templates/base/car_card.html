@@ -13,7 +13,15 @@
                             <li class="card-text">{{ car.place }}</li>
                         </ul>
                     </div>
-                    <a href="{% url 'details' car.id %}" class="btn btn-primary">Learn more</a>
+                    <div class="btn-group" role="group">                    
+                        <a href="{% url 'details' car.id %}" class="btn btn-primary btn-lg">Learn more</a>
+                            {% if car.seller == request.user %}
+                                <a href="#" class="btn btn-danger btn-lg">Remove listing</a>
+                            {% else %}
+                                <a href="#" class="btn btn-success btn-lg">Add to Favourites</a>
+                            {% endif %}
+                    </div>
+
                 </div>
             {% endif %}
     {% endwith %}

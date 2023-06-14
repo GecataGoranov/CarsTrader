@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic import TemplateView, ListView, DetailView
-from django.views.generic.edit import CreateView, FormView
+from django.views.generic.edit import CreateView, FormView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -112,5 +112,8 @@ class CarDetailsView(DetailView):
             context["slug"] = slugify(self.request.user.email)
         return context
     
-    
 
+class CarDeleteView(LoginRequiredMixin, DeleteView):
+    model = Car
+    template_name = "trader/confirm_delete.html"
+    success_url = reverse_lazy("index")
