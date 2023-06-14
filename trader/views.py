@@ -1,5 +1,6 @@
 from typing import Any, Dict
 from django.db import models
+from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic import TemplateView, ListView, DetailView
@@ -43,8 +44,8 @@ class IndexView(FormView, ListView):
     
     def get_queryset(self):
         filters = {
-            'manufacturer__contains': self.request.GET.get("manufacturer", ""),
-            'model__contains': self.request.GET.get("model", ""),
+            'manufacturer__icontains': self.request.GET.get("manufacturer", "") or self.request.GET.get("search", ""),
+            'model__icontains': self.request.GET.get("model", "") or self.request.GET.get("search", ""),
             'category__contains': self.request.GET.get("category", ""),
             'gearbox_type__contains': self.request.GET.get("gearbox_type", ""),
             'engine_type__contains': self.request.GET.get("engine_type", ""),
@@ -55,6 +56,10 @@ class IndexView(FormView, ListView):
             'color__contains': self.request.GET.get("color", ""),
             'condition__icontains': self.request.GET.get("condition", ""),
         }
+
+        # if filters['manufacturer__icontains'] and filters['model__icontains']:
+        #     filters['manufacturer__icontains'] = Q(manufacturer__icontains=filters['manufacturer__icontains']) | Q(model__icontains=filters['model__icontains'])
+        #     del filters['model__icontains']
 
         filters = {key: value for key, value in filters.items() if value != ""}
 
