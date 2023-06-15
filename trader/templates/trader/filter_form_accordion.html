@@ -40,8 +40,11 @@
               </div>
               {% endfor %}
               </div>
-              <button class="btn btn-primary mt-2" type="submit">Filter</button>
+              <div class="d-flex justify-content-between">
+              <button class="btn btn-primary btn-lg mt-3" type="submit">Filter</button>
               </form>
+              <a href="{% url 'index' %}" class="btn btn-success btn-lg mt-3">Clear Filters</a>
+              </div>
             </div>
         </div>
       </div>

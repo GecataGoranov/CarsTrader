@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.utils.text import slugify
+from urllib.parse import urlencode
 
 from .forms import FilterForm, PublishForm
 from .models import Car, CarPictures
@@ -94,6 +95,7 @@ class PublishCreateView(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         user_profile = TraderProfile.objects.get(user=self.request.user)
         if not user_profile.first_name:
+            next_page = urlencode({"next":"publish"})
             return redirect("add info", slug=user_profile.slug)
         return super().get(request, *args, **kwargs)
 

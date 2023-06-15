@@ -15,10 +15,12 @@
                     </div>
                     <div class="btn-group" role="group">                    
                         <a href="{% url 'details' car.id %}" class="btn btn-primary btn-lg">Learn more</a>
-                            {% if car.seller == request.user %}
-                                <a href="{% url 'delete car' car.id %}" class="btn btn-danger btn-lg">Remove listing</a>
-                            {% else %}
-                                <a href="#" class="btn btn-success btn-lg">Add to Favourites</a>
+                            {% if user.is_authenticated %}
+                                {% if car.seller == request.user %}
+                                    <a href="{% url 'delete car' car.id %}" class="btn btn-danger btn-lg">Remove listing</a>
+                                {% else %}
+                                    <a href="#" class="btn btn-success btn-lg">Add to Favourites</a>
+                                {% endif %}
                             {% endif %}
                     </div>
 
