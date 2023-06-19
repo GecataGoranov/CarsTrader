@@ -5,10 +5,9 @@ from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.http.response import HttpResponse
 from django.shortcuts import render, HttpResponse, redirect
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, RedirectView
 from django.views.generic.edit import CreateView, FormView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.utils.text import slugify
@@ -134,3 +133,14 @@ class CarRemoveView(LoginRequiredMixin, DeleteView):
         context = super().get_context_data(**kwargs)
         context["slug"] = slugify(self.request.user.email)
         return context
+    
+
+class FavouriteView(RedirectView):
+    url = reverse_lazy("index")
+
+    def get(self, request, *args, **kwargs):
+        id = self.kwargs["pk"]
+        car = Car.objects.get(id=id)
+        car.users_who_favourited_car.add(self.request.user)
+        car.save()
+        return super().get(request, *args, **kwargs)
