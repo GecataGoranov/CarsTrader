@@ -9,6 +9,6 @@ urlpatterns = [
     path("publish", PublishCreateView.as_view(), name="publish"),
     path("details/<int:pk>", CarDetailsView.as_view(), name="details"),
     path("delete/<int:pk>", CarRemoveView.as_view(), name="delete car"),
-    path("prohibited", TemplateView.as_view(template_name="base/prohibited"), name="prohibited"),
+    path("prohibited", TemplateView.as_view(template_name="base/prohibited.html"), name="prohibited"),
     path("favourite/<int:pk>", FavouriteView.as_view(), name="favourite")
 ]

@@ -116,7 +116,7 @@ class CarDetailsView(DetailView):
         return context
     
 
-class CarRemoveView(LoginRequiredMixin, DeleteView):
+class CarRemoveView(DeleteView):
     model = Car
     template_name = "trader/confirm_delete.html"
     success_url = reverse_lazy("index")
@@ -144,3 +144,13 @@ class FavouriteView(RedirectView):
         car.users_who_favourited_car.add(self.request.user)
         car.save()
         return super().get(request, *args, **kwargs)
+    
+
+class ProhibitedView(TemplateView):
+    template_name = "base/prohibited.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["slug"] = slugify(self.request.user.email)
+        return context
+    
