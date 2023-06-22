@@ -136,4 +136,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "accounts.TraderUser"
 
-LOGIN_URL = "accounts/login"
+LOGIN_URL = "/accounts/login"

@@ -3,13 +3,13 @@ from trader.models import Car, CarPictures
 from accounts.models import TraderUser, TraderProfile
 from django.contrib.auth import login
 from django.urls import reverse
-from trader.tests.testlib import create_car, create_user_and_profile
+from trader.tests.testlib import TestLibMixin
 
-class TestCarDetailsView(TestCase):
+class TestCarDetailsView(TestLibMixin, TestCase):
 
     def test_get_context_data__display_correct_pictures(self):
-        car = create_car()
-        car2 = create_car()
+        car = self.create_car()
+        car2 = self.create_car()
 
         picture1 = CarPictures.objects.create(picture="media/some_url.jpg", car_id=car)
         picture2 = CarPictures.objects.create(picture="media/some_other_picture.png", car_id=car)
@@ -20,8 +20,8 @@ class TestCarDetailsView(TestCase):
         self.assertEqual(response.context["pictures"].count(), 2)
 
     def test_get_context_data__get_correct_seller(self):
-        _, profile = create_user_and_profile()
-        car = create_car()
+        _, profile = self.create_user_and_profile()
+        car = self.create_car()
 
         response = self.client.get(reverse("details", args=[car.id]))
 
