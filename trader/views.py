@@ -135,7 +135,7 @@ class CarRemoveView(DeleteView):
         return context
     
 
-class FavouriteView(RedirectView):
+class FavouriteView(LoginRequiredMixin, RedirectView):
     url = reverse_lazy("index")
 
     def get(self, request, *args, **kwargs):

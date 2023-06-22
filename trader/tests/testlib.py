@@ -19,10 +19,10 @@ def create_user_and_profile():
     profile = TraderProfile.objects.create(**valid_profile_credentials)
     return user, profile
 
-def create_car():
+def create_car(model="306 Phase I"):
     car_data = {
         'manufacturer': "Peugeot",
-        'model': "306 Phase I",
+        'model': model,
         'category': "SED",
         'gearbox_type': "M",
         'engine_type': "P",
