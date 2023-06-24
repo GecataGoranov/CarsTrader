@@ -19,9 +19,9 @@
                                 {% if car.seller == request.user %}
                                     <a href="{% url 'delete car' car.id %}" class="btn btn-danger btn-lg">Remove listing</a>
                                 {% elif request.user in car.users_who_favourited_car %}
-                                    <a href="{% url 'favourite' car.id %}" class="btn btn-success btn-lg">Remove from favourites</a>
+                                    <button href="{% url 'favourite' car.id %}" id="remove-from-favourites-button" class="btn btn-success btn-lg" data-id="{{car.id}}">Remove from favourites</button>
                                 {% else %}
-                                <a href="{% url 'favourite' car.id %}" class="btn btn-success btn-lg">Add to favourites</a>
+                                <button href="{% url 'favourite' car.id %}" id="add-to-favourites-button" class="btn btn-success btn-lg" data-id="{{car.id}}">Add to favourites</button>
                                 {% endif %}
                             {% endif %}
                     </div>

@@ -16,11 +16,3 @@ def remove_manufacturer(sender, instance, **kwargs):
         manufacturer_to_delete = CarManufacturer.objects.get(manufacturer=instance.manufacturer)
         manufacturer_to_delete.delete()
 
-
-@receiver(pre_delete, sender=Car)
-def remove_car_model(sender, instance, **kwargs):
-    cars_with_same_model = Car.objects.filter(model=instance.model)
-    if len(cars_with_same_model) <= 1:
-        model_to_delete = CarModel.objects.get(model=instance.model)
-        # print(model_to_delete)
-        # model_to_delete.delete()

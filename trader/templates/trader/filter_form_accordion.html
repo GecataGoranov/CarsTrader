@@ -15,7 +15,7 @@
               {% csrf_token %}
               <div class="form-group">
               {% for field in form %}
-              <div class="accordion-item">
+              <div class="accordion-item" {% if field.label == "Model" %} id="car-model-field" style="display: none;" {% elif field.label == "Manufacturer" %} id="car-manufacturer-field" {% endif %}>
                 <h2 class="accordion-header" id="{{field.label|remove_spaces}}Heading">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{field.label|remove_spaces}}Collapse" aria-expanded="false" aria-controls="{{field.label|remove_spaces}}Collapse">
                     {{field.label}}
@@ -24,7 +24,7 @@
                 <div id="{{field.label|remove_spaces}}Collapse" class="accordion-collapse collapse" aria-labelledby="{{field.label|remove_spaces}}Heading" data-bs-parent="#formAccordion">
                   <div class="accordion-body">
                     {% if field.field.widget.input_type == "select" %}
-                      <select class="form-select" multiple {% if field.label == "Gearbox type" %} name="gearbox_type" {% else %} name="{{field.label|lower}}" {% endif %} size="{{field.field.choices|length|add:'-1'}}">
+                      <select {% if field.label == "Model" %} id="model-select" {% elif field.label == "Manufacturer" %} id="manufacturer-select" {% endif %} class="form-select" multiple {% if field.label == "Gearbox type" %} name="gearbox_type" {% else %} name="{{field.label|lower}}" {% endif %} size="{{field.field.choices|length|add:'-1'}}">
                         {% for choice in field.field.choices %}
                           {% if choice.1 == "---------" %}
                           {% else %}
